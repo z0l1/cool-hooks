@@ -2,7 +2,7 @@ import { ChangeEvent } from "react";
 
 export function useStateManager<T>(
 	data: T,
-	setData: (data: T) => void,
+	setData?: (data: T) => void,
 	options?: {
 		setValueValidator?: (key: keyof T, value: any) => boolean;
 		onSetValue?: (key: keyof T, value: any) => void;
