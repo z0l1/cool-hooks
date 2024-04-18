@@ -11,6 +11,7 @@ export function useStateManager<T>(
 	}
 ): {
 	setValue: (key: keyof T, value: any) => void;
+	valueSetter: (key: keyof T, value: any) => () => void;
 	inputValueSetter: <TI>(key: keyof T, afterFunc?: () => void) => (e: ChangeEvent<TI>) => void;
 	inputNumberValueSetter: <TI>(
 		key: keyof T,
@@ -29,6 +30,10 @@ export function useStateManager<T>(
 		setData?.({ ...data, [key]: value });
 		options?.onSetValue?.(key, value);
 		options?.onSet?.();
+	};
+
+	const valueSetter = (key: keyof T, value: any) => {
+		return () => setValue(key, value);
 	};
 
 	const inputValueSetter = <TI = HTMLInputElement>(key: keyof T, afterFunc?: () => void) => {
@@ -50,7 +55,9 @@ export function useStateManager<T>(
 
 	return {
 		setValue,
+		valueSetter,
 		inputValueSetter,
 		inputNumberValueSetter,
 	};
 }
+
