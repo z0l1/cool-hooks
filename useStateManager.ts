@@ -14,15 +14,15 @@ export function useStateManager<T>(
 	inputNumberValueSetter: (key: keyof T, afterFunc?: () => void) => void;
 } {
 	const setValue = (key: keyof T, value: any) => {
-		if (options.setValueValidator !== undefined) {
-			if (options.setValueValidator?.(key, value) === true) {
+		if (options?.setValueValidator !== undefined) {
+			if (options.setValueValidator(key, value) === false) {
 				return;
 			}
 		}
 
 		setData?.({ ...data, [key]: value });
-		options.onSetValue?.(key, value);
-		options.onSet?.();
+		options?.onSetValue?.(key, value);
+		options?.onSet?.();
 	};
 
 	const inputValueSetter = <TI = HTMLInputElement>(key: keyof T, afterFunc?: () => void) => {
