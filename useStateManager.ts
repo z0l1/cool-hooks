@@ -7,6 +7,7 @@ export function useStateManager<T>(
 		setValueValidator?: (key: keyof T, value: any) => boolean;
 		onSetValue?: (key: keyof T, value: any) => void;
 		onSet?: () => void;
+		disabled?: boolean;
 	}
 ): {
 	setValue: (key: keyof T, value: any) => void;
@@ -14,10 +15,12 @@ export function useStateManager<T>(
 	inputNumberValueSetter: (key: keyof T, afterFunc?: () => void) => void;
 } {
 	const setValue = (key: keyof T, value: any) => {
-		if (options?.setValueValidator !== undefined) {
-			if (options.setValueValidator(key, value) === false) {
-				return;
-			}
+		if (options?.disabled === true) {
+			return;
+		}
+
+		if (options?.setValueValidator?.(key, value) === false) {
+			return;
 		}
 
 		setData?.({ ...data, [key]: value });
