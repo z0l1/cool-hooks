@@ -11,8 +11,11 @@ export function useStateManager<T>(
 	}
 ): {
 	setValue: (key: keyof T, value: any) => void;
-	inputValueSetter: (key: keyof T, afterFunc?: () => void) => void;
-	inputNumberValueSetter: (key: keyof T, afterFunc?: () => void) => void;
+	inputValueSetter: <TI>(key: keyof T, afterFunc?: () => void) => (e: ChangeEvent<TI>) => void;
+	inputNumberValueSetter: <TI>(
+		key: keyof T,
+		afterFunc?: () => void
+	) => (e: ChangeEvent<TI>) => void;
 } {
 	const setValue = (key: keyof T, value: any) => {
 		if (options?.disabled === true) {
